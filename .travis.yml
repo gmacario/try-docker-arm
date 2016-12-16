@@ -1,0 +1,29 @@
+# Credits: http://blog.ubergarm.com/travisci-docker-armhf-images/
+
+sudo: required
+services:
+  - docker
+# language: haskell
+# setup build machine
+before_install:
+  - travis_retry sudo apt-get update
+  - travis_retry sudo apt-get install -y --no-install-recommends qemu-user-static binfmt-support
+  - sudo update-binfmts --display qemu-arm
+# build code
+install:
+  - docker pull ubergarm/armhf-ubuntu:trusty
+# test code
+script:
+  - uname -a
+  - docker run --rm -it ubergarm/armhf-ubuntu:trusty uname -a
+# save/deploy build artifacts
+after_sucess:
+  - /bin/true
+#  - docker login -e=$DOCKER_EMAIL -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+#  - docker push ubergarm/rowboat1
+
+# configure which branches are built
+branches:
+  only:
+    - builds
+#    - master
