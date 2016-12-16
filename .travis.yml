@@ -4,20 +4,27 @@ sudo: required
 services:
   - docker
 # language: haskell
+
 # setup build machine
 before_install:
   - travis_retry sudo apt-get update
   - travis_retry sudo apt-get install -y --no-install-recommends qemu-user-static binfmt-support
   - sudo update-binfmts --display qemu-arm
+
 # build code
 install:
   - docker pull ubergarm/armhf-ubuntu:trusty
+
 # test code
 script:
   - uname -a
+  - cat /proc/cpuinfo
+  - cat /proc/meminfo
+  - lsblk
   - docker run --rm -it ubergarm/armhf-ubuntu:trusty uname -a
+
 # save/deploy build artifacts
-after_sucess:
+after_success:
   - /bin/true
 #  - docker login -e=$DOCKER_EMAIL -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
 #  - docker push ubergarm/rowboat1
