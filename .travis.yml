@@ -26,4 +26,4 @@ after_sucess:
 branches:
   only:
     - builds
-#    - master
+    - master
